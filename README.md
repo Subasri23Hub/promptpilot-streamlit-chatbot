@@ -4,7 +4,7 @@ PromptPilot is a conversational AI chatbot built with **Streamlit** and powered 
 It provides a clean chat interface where users can interact with an AI assistant in real time.
 
  **Live App**  
-https://promptpilot-app-chatbot-osdjcsce4y3wkryswfbyyj.streamlit.app/
+https://promptpilot-app-chatbot-fkmpoabbadmjf7zkfcbczx.streamlit.app/
 
 ---
 
