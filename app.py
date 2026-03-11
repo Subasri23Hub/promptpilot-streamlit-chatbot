@@ -2,22 +2,22 @@ import streamlit as st
 import google.generativeai as genai
 import os
 
-api_key = st.secrets.get("GEMINI_API_KEY", os.getenv("GEMINI_API_KEY"))
+# API key handling
+api_key = st.secrets.get("GEMINI_API_KEY") or os.getenv("GEMINI_API_KEY")
+
+if not api_key:
+    st.error("Gemini API key not found. Please add it in Streamlit Secrets.")
+    st.stop()
+
 genai.configure(api_key=api_key)
 
 # load model
 model = genai.GenerativeModel("gemini-2.5-flash")
 
-st.set_page_config(page_title="Gemini AI Chatbot", page_icon="🤖")
+st.set_page_config(page_title="PromptPilot", page_icon="🤖")
 
 st.title("🤖 PromptPilot")
 st.caption("Powered by Google Gemini + Streamlit")
-
-system_prompt = """
-You are a helpful AI assistant.
-Explain things clearly and simply.
-Keep answers short and easy to understand.
-"""
 
 # initialize chat
 if "chat" not in st.session_state:
@@ -31,7 +31,7 @@ for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
-# layout for clear button
+# input area
 col1, col2 = st.columns([5,1])
 
 with col1:
@@ -43,7 +43,7 @@ with col2:
         st.session_state.chat = model.start_chat(history=[])
         st.rerun()
 
-# user input
+# user message
 if user_input:
 
     with st.chat_message("user"):
@@ -51,11 +51,10 @@ if user_input:
 
     st.session_state.messages.append({"role": "user", "content": user_input})
 
-    response = st.session_state.chat.send_message(system_prompt + user_input)
-
-    bot_reply = response.text
-
     with st.chat_message("assistant"):
-        st.write(bot_reply)
+        with st.spinner("Thinking... 🤖"):
+            response = st.session_state.chat.send_message(user_input)
+            bot_reply = response.text
+            st.write(bot_reply)
 
     st.session_state.messages.append({"role": "assistant", "content": bot_reply})
