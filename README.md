@@ -10,10 +10,8 @@ https://promptpilot-app-chatbot-osdjcsce4y3wkryswfbyyj.streamlit.app/
 
 ##  Features
 
--  ChatGPT-style chat interface
 -  Powered by Google Gemini API
 -  Fast responses using Gemini 2.5 Flash
--  Maintains conversation history
 -  Clear chat functionality
 -  Deployed on Streamlit Cloud
 
